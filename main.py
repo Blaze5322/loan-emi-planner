@@ -20,382 +20,68 @@ st.set_page_config(
 )
 
 # -------------------------
-# Themes (light & dark) — simplified and robust CSS
+# BLOOMBERG TERMINAL THEME
 # -------------------------
-_LIGHT_THEME = """
+
+TERMINAL_THEME = """
+<style>
+
 :root {
-  --bg-primary: #f7f9fc;
-  --bg-secondary: #ffffff;
-  --bg-card: #ffffff;
-  --text-color: #111827;
-  --text-muted: #4b5563; /* slightly darker muted text for better contrast */
-  --accent: #2563eb;
-  --positive: #16a34a;
-  --negative: #dc2626;
-}
-[data-testid="stAppViewContainer"] { background: var(--bg-primary); color: var(--text-color); }
-[data-testid="stSidebar"] { background: var(--bg-secondary); }
-.ui-card { background: var(--bg-card); border-radius: 12px; padding: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 12px; }
-.ui-muted { color: var(--text-muted) !important; }
-.ui-metric-label { font-weight: 600; color: var(--text-muted); font-size: 0.95rem; }
-.ui-metric-value { font-weight: 700; font-size: 1.4rem; color: var(--accent); }
-.ui-badge { padding:4px 10px; border-radius:999px; font-weight:600; font-size:0.85rem; }
-.ui-pos { background: rgba(34,197,94,0.1); color: var(--positive); }
-.ui-neg { background: rgba(239,68,68,0.1); color: var(--negative); }
-
-section.main > div.block-container { padding-top: 8px; padding-left: 18px; padding-right: 18px; }
-.stDataFrame table, .stTable { background: var(--bg-secondary); color: var(--text-color); border-radius: 8px; }
-
-/* enforce theme text colors for all common elements */
-[data-testid="stAppViewContainer"] * { color: var(--text-color) !important; }
-[data-testid="stSidebar"] * { color: var(--text-color) !important; }
-
-/* links should use accent */
-a, a:visited, a:active, .stMarkdown a { color: var(--accent) !important; }
-
-/* muted captions should use text-muted */
-.stCaption, .css-1lsmgbg, .stText, .stMarkdown { color: var(--text-muted) !important; }
-
-/* table / dataframe text */
-.stDataFrame table td, .stTable td, .stDataFrame table th, .stTable th { color: var(--text-color) !important; }
-
-/* buttons/inputs labels fallback */
-button, input, label, .stNumberInput, .stSelectbox { color: var(--text-color) !important; }
-
-/* --- Widget / input specific fixes --- */
-/* Number & text inputs (Streamlit widgets) */
-[data-testid="stAppViewContainer"] input[type="number"],
-[data-testid="stAppViewContainer"] input[type="text"],
-[data-testid="stSidebar"] input[type="number"],
-[data-testid="stSidebar"] input[type="text"],
-.stNumberInput input,
-.stTextInput input,
-.stTextArea textarea {
-  background: var(--bg-secondary) !important;    /* match theme background */
-  color: var(--text-color) !important;           /* readable text color per theme */
-  caret-color: var(--accent) !important;
-  border-color: rgba(0,0,0,0.08) !important;
+  --bg-main: #0b0f14;
+  --bg-panel: #11161c;
+  --grid: #1f2933;
+  --accent: #00c8ff;
+  --text-main: #e5e7eb;
+  --text-muted: #7b8794;
 }
 
-/* Placeholder / faint captions inside inputs */
-[data-testid="stAppViewContainer"] input::placeholder,
-[data-testid="stSidebar"] input::placeholder,
-.stNumberInput input::placeholder,
-.stTextInput input::placeholder {
-  color: var(--text-muted) !important;
-  opacity: 1 !important;
+html, body, [data-testid="stAppViewContainer"] {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Segoe UI', Arial, sans-serif;
 }
 
-/* Select boxes and dropdown value text */
-.stSelectbox > div, .stSelectbox button, .streamlit-expanderHeader {
-  color: var(--text-color) !important;
+[data-testid="stSidebar"] {
+  background-color: #0f141a;
+  border-right: 1px solid var(--grid);
 }
 
-/* Ensure table cells also have readable text & backgrounds */
-.stDataFrame table td, .stTable td, .stDataFrame table th, .stTable th {
-  background: transparent !important;
-  color: var(--text-color) !important;
+h1, h2, h3 {
+  color: var(--accent) !important;
+  font-weight: 600;
 }
 
-/* small: numeric spinner buttons keep native appearance but readable */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: inner-spin-button;
+.terminal-panel {
+  background-color: var(--bg-panel);
+  border: 1px solid var(--grid);
+  padding: 18px;
+  margin-bottom: 18px;
 }
 
-/* --- Fix icons, SVGs and widget labels (plus/minus, dropdown arrows, radio/select/checkbox labels) --- */
-/* Force SVG/icon fills and colors to follow theme text color */
-[data-testid="stAppViewContainer"] svg,
-[data-testid="stSidebar"] svg,
-[data-testid="stAppViewContainer"] button svg,
-[data-testid="stSidebar"] button svg {
-  fill: var(--text-color) !important;
-  color: var(--text-color) !important;
+.metric-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
 }
 
-/* Make the label/text inside common widgets readable */
-[data-testid="stAppViewContainer"] .stSelectbox *,
-[data-testid="stAppViewContainer"] .stRadio *,
-[data-testid="stAppViewContainer"] .stCheckbox *,
-[data-testid="stAppViewContainer"] .stNumberInput *,
-[data-testid="stAppViewContainer"] .stSlider *,
-[data-testid="stSidebar"] .stSelectbox *,
-[data-testid="stSidebar"] .stRadio *,
-[data-testid="stSidebar"] .stCheckbox *,
-[data-testid="stSidebar"] .stNumberInput * {
-  color: var(--text-color) !important;
+.metric-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--accent);
 }
 
-/* Target the up/down small buttons inside number inputs (some Streamlit versions) */
-[data-testid="stAppViewContainer"] .stNumberInput button,
-[data-testid="stSidebar"] .stNumberInput button {
-  background: transparent !important;
-  color: var(--text-color) !important;
+.stButton>button {
+  background-color: var(--accent);
+  color: black;
+  border-radius: 0px;
+  border: none;
 }
 
-/* Also make dropdown option text readable when the menu opens */
-[role="listbox"] * { color: var(--text-color) !important; }
-
-/* ------- Target selectbox buttons, opened option list, and radio groups ------- */
-
-/* The visible selectbox control (the clickable button that shows current value) */
-.stSelectbox > div,
-.stSelectbox > div > button,
-.stSelectbox > div[role="button"],
-button[role="button"][aria-haspopup="listbox"],
-div[role="button"][aria-haspopup="listbox"] {
-  color: var(--text-color) !important;
-  fill: var(--text-color) !important;
-  background: var(--bg-secondary) !important;
-  border: 1px solid rgba(0,0,0,0.06) !important;
-}
-
-/* Specific inner spans/divs inside the visible select control */
-button[role="button"][aria-haspopup="listbox"] span,
-button[role="button"][aria-haspopup="listbox"] div,
-div[role="button"][aria-haspopup="listbox"] span,
-div[role="button"][aria-haspopup="listbox"] div {
-  color: var(--text-color) !important;
-  background: transparent !important;
-}
-
-/* When the dropdown opens, options use role="option" (makes option text readable) */
-[role="listbox"] { background: var(--bg-secondary) !important; color: var(--text-color) !important; }
-[role="listbox"] [role="option"], [role="option"] {
-  color: var(--text-color) !important;
-  background: var(--bg-secondary) !important;
-}
-[role="option"][aria-selected="true"] { background: var(--bg-secondary) !important; color: var(--text-color) !important; }
-
-/* Radio groups and radio options (prepay mode / tenure mode if rendered as radio) */
-[role="radiogroup"], [role="radiogroup"] * , [role="radio"], [role="radio"] * {
-  color: var(--text-color) !important;
-  fill: var(--text-color) !important;
-  background: transparent !important;
-}
-
-/* Also target label elements associated with inputs/selects (extra coverage) */
-label, .css-1q8dd3e, .css-1okebmr, .css-1d391kg {
-  color: var(--text-color) !important;
-}
-
-/* If the select control is wrapped in a div with aria-expanded attribute */
-div[aria-expanded="false"], div[aria-expanded="true"] {
-  color: var(--text-color) !important;
-  background: var(--bg-secondary) !important;
-}
-"""
-_DARK_THEME = """
-:root {
-  --bg-primary: #0f172a;
-  --bg-secondary: #1e293b;
-  --bg-card: #1e293b;
-  --text-color: #e2e8f0;
-  --text-muted: #94a3b8;
-  --accent: #38bdf8;
-  --positive: #22c55e;
-  --negative: #ef4444;
-}
-[data-testid="stAppViewContainer"] { background: var(--bg-primary); color: var(--text-color); }
-[data-testid="stSidebar"] { background: var(--bg-secondary); color: var(--text-color); }
-.ui-card { background: var(--bg-card); border-radius: 12px; padding: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.6); margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.08); }
-.ui-muted { color: var(--text-muted) !important; }
-.ui-metric-label { font-weight: 600; color: var(--text-muted); font-size: 0.95rem; }
-.ui-metric-value { font-weight: 700; font-size: 1.4rem; color: var(--accent); }
-.ui-badge { padding:4px 10px; border-radius:999px; font-weight:600; font-size:0.85rem; }
-.ui-pos { background: rgba(34,197,94,0.15); color: var(--positive); }
-.ui-neg { background: rgba(239,68,68,0.15); color: var(--negative); }
-
-section.main > div.block-container { padding-top: 8px; padding-left: 18px; padding-right: 18px; }
-.stDataFrame table, .stTable { background: var(--bg-secondary); color: var(--text-color); border-radius: 8px; }
-
-/* enforce theme text colors for all common elements */
-[data-testid="stAppViewContainer"] * { color: var(--text-color) !important; }
-[data-testid="stSidebar"] * { color: var(--text-color) !important; }
-
-/* links should use accent */
-a, a:visited, a:active, .stMarkdown a { color: var(--accent) !important; }
-
-/* muted captions should use text-muted */
-.stCaption, .css-1lsmgbg, .stText, .stMarkdown { color: var(--text-muted) !important; }
-
-/* table / dataframe text */
-.stDataFrame table td, .stTable td, .stDataFrame table th, .stTable th { color: var(--text-color) !important; }
-
-/* buttons/inputs labels fallback */
-button, input, label, .stNumberInput, .stSelectbox { color: var(--text-color) !important; }
-
-/* --- Widget / input specific fixes --- */
-/* Number & text inputs (Streamlit widgets) */
-[data-testid="stAppViewContainer"] input[type="number"],
-[data-testid="stAppViewContainer"] input[type="text"],
-[data-testid="stSidebar"] input[type="number"],
-[data-testid="stSidebar"] input[type="text"],
-.stNumberInput input,
-.stTextInput input,
-.stTextArea textarea {
-  background: var(--bg-secondary) !important;    /* match theme background */
-  color: var(--text-color) !important;           /* readable text color per theme */
-  caret-color: var(--accent) !important;
-  border-color: rgba(255,255,255,0.06) !important;
-}
-
-/* Placeholder / faint captions inside inputs */
-[data-testid="stAppViewContainer"] input::placeholder,
-[data-testid="stSidebar"] input::placeholder,
-.stNumberInput input::placeholder,
-.stTextInput input::placeholder {
-  color: var(--text-muted) !important;
-  opacity: 1 !important;
-}
-
-/* Select boxes and dropdown value text */
-.stSelectbox > div, .stSelectbox button, .streamlit-expanderHeader {
-  color: var(--text-color) !important;
-}
-
-/* Ensure table cells also have readable text & backgrounds */
-.stDataFrame table td, .stTable td, .stDataFrame table th, .stTable th {
-  background: transparent !important;
-  color: var(--text-color) !important;
-}
-
-/* small: numeric spinner buttons keep native appearance but readable */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: inner-spin-button;
-}
-
-/* --- Fix icons, SVGs and widget labels (plus/minus, dropdown arrows, radio/select/checkbox labels) --- */
-/* Force SVG/icon fills and colors to follow theme text color */
-[data-testid="stAppViewContainer"] svg,
-[data-testid="stSidebar"] svg,
-[data-testid="stAppViewContainer"] button svg,
-[data-testid="stSidebar"] button svg {
-  fill: var(--text-color) !important;
-  color: var(--text-color) !important;
-}
-
-/* Make the label/text inside common widgets readable */
-[data-testid="stAppViewContainer"] .stSelectbox *,
-[data-testid="stAppViewContainer"] .stRadio *,
-[data-testid="stAppViewContainer"] .stCheckbox *,
-[data-testid="stAppViewContainer"] .stNumberInput *,
-[data-testid="stAppViewContainer"] .stSlider *,
-[data-testid="stSidebar"] .stSelectbox *,
-[data-testid="stSidebar"] .stRadio *,
-[data-testid="stSidebar"] .stCheckbox *,
-[data-testid="stSidebar"] .stNumberInput * {
-  color: var(--text-color) !important;
-}
-
-/* Target the up/down small buttons inside number inputs (some Streamlit versions) */
-[data-testid="stAppViewContainer"] .stNumberInput button,
-[data-testid="stSidebar"] .stNumberInput button {
-  background: transparent !important;
-  color: var(--text-color) !important;
-}
-
-/* Also make dropdown option text readable when the menu opens */
-[role="listbox"] * { color: var(--text-color) !important; }
-
-/* ------- Target selectbox buttons, opened option list, and radio groups ------- */
-
-/* The visible selectbox control (the clickable button that shows current value) */
-.stSelectbox > div,
-.stSelectbox > div > button,
-.stSelectbox > div[role="button"],
-button[role="button"][aria-haspopup="listbox"],
-div[role="button"][aria-haspopup="listbox"] {
-  color: var(--text-color) !important;
-  fill: var(--text-color) !important;
-  background: var(--bg-secondary) !important;
-  border: 1px solid rgba(255,255,255,0.06) !important;
-}
-
-/* Specific inner spans/divs inside the visible select control */
-button[role="button"][aria-haspopup="listbox"] span,
-button[role="button"][aria-haspopup="listbox"] div,
-div[role="button"][aria-haspopup="listbox"] span,
-div[role="button"][aria-haspopup="listbox"] div {
-  color: var(--text-color) !important;
-  background: transparent !important;
-}
-
-/* When the dropdown opens, options use role="option" (makes option text readable) */
-[role="listbox"] { background: var(--bg-secondary) !important; color: var(--text-color) !important; }
-[role="listbox"] [role="option"], [role="option"] {
-  color: var(--text-color) !important;
-  background: var(--bg-secondary) !important;
-}
-[role="option"][aria-selected="true"] { background: var(--bg-secondary) !important; color: var(--text-color) !important; }
-
-/* Radio groups and radio options (prepay mode / tenure mode if rendered as radio) */
-[role="radiogroup"], [role="radiogroup"] * , [role="radio"], [role="radio"] * {
-  color: var(--text-color) !important;
-  fill: var(--text-color) !important;
-  background: transparent !important;
-}
-
-/* Also target label elements associated with inputs/selects (extra coverage) */
-label, .css-1q8dd3e, .css-1okebmr, .css-1d391kg {
-  color: var(--text-color) !important;
-}
-
-/* If the select control is wrapped in a div with aria-expanded attribute */
-div[aria-expanded="false"], div[aria-expanded="true"] {
-  color: var(--text-color) !important;
-  background: var(--bg-secondary) !important;
-}
+</style>
 """
 
-# -------------------------
-# Theme selector (use selectbox for compatibility)
-# -------------------------
-with st.sidebar:
-    theme_choice = st.selectbox("Theme", ["Light", "Dark"], index=0)
+st.markdown(TERMINAL_THEME, unsafe_allow_html=True)
 
-def _inject_theme(theme_css: str):
-    st.markdown(f"<style>{theme_css}</style>", unsafe_allow_html=True)
-
-if theme_choice == "Dark":
-    _inject_theme(_DARK_THEME)
-else:
-    _inject_theme(_LIGHT_THEME)
-
-# -------------------------
-# Small UI helpers
-# -------------------------
-def ui_topbar(title: str, subtitle: str = "", right_text: str = ""):
-    st.markdown(
-        f"<div style='position:sticky;top:0;z-index:999;padding:10px 18px;background:transparent;display:flex;align-items:center;gap:12px;border-radius:0 0 10px 10px'><div><h1 style='margin:0;color:inherit'>{title}</h1><div style='color:var(--text-muted);font-size:12px'>{subtitle}</div></div><div style='margin-left:auto;color:var(--text-muted);font-weight:600'>{right_text}</div></div>",
-        unsafe_allow_html=True,
-    )
-
-
-def ui_summary_cards(cards: list):
-    st.markdown("<div style='display:flex;gap:12px;flex-wrap:wrap'>", unsafe_allow_html=True)
-    for c in cards:
-        label = c.get('label','')
-        value = c.get('value','')
-        hint = c.get('hint','')
-        trend = c.get('trend', None)
-        st.markdown("<div style='flex:1 1 220px;min-width:200px' class='ui-card'>", unsafe_allow_html=True)
-        st.markdown(f"<div class='ui-metric-label'>{label}</div>", unsafe_allow_html=True)
-        if trend == 'pos':
-            st.markdown(f"<div style='display:flex;justify-content:space-between;align-items:center'><div class='ui-metric-value'>{value}</div><div class='ui-badge ui-pos'>Benefit</div></div>", unsafe_allow_html=True)
-        elif trend == 'neg':
-            st.markdown(f"<div style='display:flex;justify-content:space-between;align-items:center'><div class='ui-metric-value'>{value}</div><div class='ui-badge ui-neg'>Higher cost</div></div>", unsafe_allow_html=True)
-        else:
-            st.markdown(f"<div class='ui-metric-value'>{value}</div>", unsafe_allow_html=True)
-        if hint:
-            st.markdown(f"<div class='ui-muted' style='margin-top:8px'>{hint}</div>", unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
-
-
-def ui_info(text: str):
-    st.markdown(f"<div class='ui-card'><div class='ui-muted'>{text}</div></div>", unsafe_allow_html=True)
 
 # -------------------------
 # Helpers (robust)
@@ -848,23 +534,53 @@ if df_sim_prepay is not None and not df_sim_prepay.empty and df_sim_base is not 
 # -------------------------
 # Render UI — topbar + tabs
 # -------------------------
-ui_topbar('Loan EMI Planner — Rates & Prepayment Analysis', 'Compare fixed vs flexible loans, run a bank-rate simulator, and model prepayments.', 'v1.3')
+st.markdown("""
+<h1>Loan Analytics Terminal</h1>
+<p style='color:#7b8794'>
+Institutional EMI Modeling · Rate Shock Simulation · Prepayment Analytics
+</p>
+""", unsafe_allow_html=True)
 
 tabs = st.tabs(["Overview", "Visuals", "Schedules & Export", "Diagnostics"])
 
 # ---------- Overview tab ----------
+# ---------- Overview tab ----------
 with tabs[0]:
-    st.header("Summary — Key metrics")
-    cards = [
-        {"label":"Original months", "value": f"{base_s['months']}", "hint":"Loan length (months)"},
-        {"label":"Original total interest", "value": f"₹{base_s['total_interest']:,.0f}", "hint":"Interest paid without prepayment"},
-        {"label":"Interest saved by prepayment", "value": f"₹{interest_saved:,.0f}" if interest_saved is not None else "—", "hint":"Lower is better", "trend":"pos" if interest_saved and interest_saved>0 else None},
-        {"label":"Bank change effect", "value": f"₹{sim_interest_delta:,.0f}" if sim_interest_delta is not None else "—", "hint":"Positive = you pay more", "trend":"neg" if sim_interest_delta and sim_interest_delta>0 else ("pos" if sim_interest_delta and sim_interest_delta<0 else None)}
-    ]
-    ui_summary_cards(cards)
+    st.markdown("<div class='terminal-panel'>", unsafe_allow_html=True)
 
-    st.markdown("---")
-    ui_info("Prepayment reduces outstanding principal immediately — earlier prepayments save more interest. Use the Visuals tab for monthly breakdowns and breakeven charts.")
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.markdown(
+            f"<div class='metric-label'>ORIGINAL MONTHS</div>"
+            f"<div class='metric-value'>{base_s['months']}</div>",
+            unsafe_allow_html=True
+        )
+
+    with col2:
+        st.markdown(
+            f"<div class='metric-label'>TOTAL INTEREST</div>"
+            f"<div class='metric-value'>₹{base_s['total_interest']:,.0f}</div>",
+            unsafe_allow_html=True
+        )
+
+    with col3:
+        val = f"₹{interest_saved:,.0f}" if interest_saved is not None else "—"
+        st.markdown(
+            f"<div class='metric-label'>INTEREST SAVED</div>"
+            f"<div class='metric-value'>{val}</div>",
+            unsafe_allow_html=True
+        )
+
+    with col4:
+        val = f"₹{sim_interest_delta:,.0f}" if sim_interest_delta is not None else "—"
+        st.markdown(
+            f"<div class='metric-label'>BANK RATE IMPACT</div>"
+            f"<div class='metric-value'>{val}</div>",
+            unsafe_allow_html=True
+        )
+
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # ---------- Visuals tab ----------
 with tabs[1]:
@@ -879,8 +595,23 @@ with tabs[1]:
         fig.add_trace(go.Scatter(x=df_prepay["Month"], y=df_prepay["Opening Balance"], mode="lines", name="Base + Prepay"))
     if df_sim_prepay is not None and not df_sim_prepay.empty:
         fig.add_trace(go.Scatter(x=df_sim_prepay["Month"], y=df_sim_prepay["Opening Balance"], mode="lines", name="Simulated + Prepay"))
-    fig.update_layout(title="Outstanding Opening Balance over time", xaxis_title="Month", yaxis_title="Balance (₹)", legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
+    fig.update_layout(
+        template="plotly_dark",
+        title="Outstanding Opening Balance over time",
+        xaxis_title="Month",
+        yaxis_title="Balance (₹)",
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1
+        )
+    )
+
     st.plotly_chart(fig, use_container_width=True)
+    fig.update_layout(hovermode="x unified")
+
 
     st.markdown("---")
     st.subheader("EMI split (interest vs principal) — first N months")
@@ -892,7 +623,7 @@ with tabs[1]:
             st.markdown("Base (original)")
             small = df_base[df_base["Month"] <= show_n][["Month", "Interest", "Principal Paid"]]
             stacked = small.melt(id_vars="Month", value_vars=["Interest", "Principal Paid"], var_name="Type", value_name="Amount")
-            figb = px.bar(stacked, x="Month", y="Amount", color="Type", barmode="stack", title=f"Base first {show_n} months")
+            figb = figb = px.bar(stacked, x="Month", y="Amount", color="Type", barmode="stack", template="plotly_dark")
             st.plotly_chart(figb, use_container_width=True)
         with cols_plot[1]:
             if df_sim_base is not None and not df_sim_base.empty:
